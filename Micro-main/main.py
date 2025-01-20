@@ -2,6 +2,10 @@ from typing import Union
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from redis_om import get_redis_connection, HashModel
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -13,9 +17,9 @@ app.add_middleware(
 )
 
 redis = get_redis_connection(
-    host="redis-11455.c16.us-east-1-3.ec2.redns.redis-cloud.com",
-    port=11455,
-    password="ywV3wyoyawqmv749vAqxQWoi5uFjU7et",
+    host=os.getenv("REDIS_HOST"),
+    port=int(os.getenv("REDIS_PORT")),
+    password=os.getenv("REDIS_PASSWORD"),
     decode_responses=True
 )
 
@@ -29,6 +33,10 @@ class Product(HashModel):
     
     class Config:
         arbitrary_types_allowed = True
+    
+    def model_dump(self, **kwargs):
+        # Use this if ExpressionProxy fields are present and should be excluded
+        return super().model_dump(**kwargs)
 
 @app.get("/products")
 def all():
