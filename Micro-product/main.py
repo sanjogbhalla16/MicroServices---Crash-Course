@@ -55,7 +55,7 @@ def format(pk: str):
 def create_product(product: Product):
     return product.save()
 
-@app.get("/products/{pk}")
+@app.get("/products/{pk}") #single product
 def get_product(pk: str):
     return Product.get(pk)
 
