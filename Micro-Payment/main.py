@@ -22,7 +22,7 @@ db = mongo_client["micro-payment"]
 collection = db["products"] #collection name
 
 # Base URL of the Product Service
-PRODUCT_SERVICE_URL = os.getenv("REDIS_URI")
+PRODUCT_SERVICE_URL = "http://localhost:8000/products"
 
 # Endpoint to create an order
 @app.post("/orders")   #all products
